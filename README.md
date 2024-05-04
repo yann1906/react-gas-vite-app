@@ -1,3 +1,5 @@
+Application that run on google environment, using react vite and clasp
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
