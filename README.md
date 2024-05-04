@@ -1,3 +1,5 @@
+Application that run on google environment, using react vite and clasp
+
 # React + TypeScript + Vite
 
 This is an application that runs on the Google environment, using React, Vite, and Clasp.
