@@ -1,0 +1,25 @@
+.skeleton-image {
+  width: 100%;
+  height: 200px; /* Adjust height as needed */
+  background-color: #ddd;
+}
+
+/* Additional styling for the card content */
+.skeleton-line {
+  height: 20px;
+  background-color: #ddd;
+  margin-bottom: 10px;
+}
+
+/* SkeletonCard.css */
+
+.proj-card-img {
+  width: 100%;
+  height: auto; /* This ensures the image maintains its aspect ratio */
+}
+
+/* Additional styling for the card */
+.card {
+  margin-bottom: 20px; /* Add some space between cards */
+}
+
