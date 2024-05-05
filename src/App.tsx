@@ -11,6 +11,7 @@ function App() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/test" element={<Test />} />
           <Route path="/" element={<DispatchAppPage />} />
+          <Route path="/userCodeAppPanel" element={<DispatchAppPage />} />
         </Routes>
       </div>
     </Router>

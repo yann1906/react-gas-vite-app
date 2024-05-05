@@ -1,6 +1,9 @@
 import react from "@vitejs/plugin-react";
 import * as path from "path";
 import { defineConfig } from "vite";
+import { readdirSync, statSync, copyFileSync, mkdirSync, existsSync } from "fs";
+
+process.env.DISABLE_SOURCE_MAPS = "true";
 
 const toJsStringVariablePlugin = (fileName: string) => {
   return {
@@ -28,18 +31,50 @@ const toJsStringVariablePlugin = (fileName: string) => {
   };
 };
 
+// Function to recursively copy files and directories
+const copyRecursiveSync = (src: string, dest: string) => {
+  const exists = statSync(src).isDirectory();
+  const stats = exists && readdirSync(src);
+
+  if (exists && stats) {
+    if (!existsSync(dest)) {
+      mkdirSync(dest);
+    }
+    stats.forEach((childItemName) => {
+      const srcPath = path.resolve(src, childItemName);
+      const destPath = path.resolve(dest, childItemName);
+      if (statSync(srcPath).isDirectory()) {
+        copyRecursiveSync(srcPath, destPath);
+      } else {
+        copyFileSync(srcPath, destPath);
+      }
+    });
+  }
+};
+
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
+  // Copy public directory to output directory
+  if (command !== "serve") {
+    const publicDir = path.resolve(__dirname, "public");
+    const outDir = path.resolve(__dirname, "apps-script/client");
+    copyRecursiveSync(publicDir, outDir);
+  }
+
   return {
     plugins: [react()],
     define: {
       "process.env": {
-        NODE_ENV: "production",
+        NODE_ENV: "development",
+        // NODE_ENV: "production",
       },
     },
-    publicDir: command === "serve" ? "public" : false,
+    publicDir:
+      command === "serve"
+        ? "public"
+        : path.resolve(__dirname, "apps-script/client"),
     build: {
-      outDir: "apps-script/client",
+      outDir: path.resolve(__dirname, "apps-script/client"),
       emptyOutDir: false,
       sourcemap: "inline",
       target: "esnext",
